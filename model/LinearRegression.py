@@ -4,8 +4,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 import sklearn.linear_model as linear_model
 from sklearn.preprocessing import StandardScaler
-
-# from  sklearn.metrics import accuracy_score
+from  sklearn.metrics import accuracy_score
 
 """
 Scaling all features to same range.
@@ -44,10 +43,15 @@ def process_data():
         dates.append(SpeedDate.to_list(d))
 
     # scale features
-    dates = feature_scaling(dates)
+    # dates = feature_scaling(dates)
+
+    dates = np.array(dates)
 
     # independent variables
     x_dates = dates[:, 1:]
+    # scale features
+    x_dates = feature_scaling(x_dates)
+
     # dependent variable
     y_dates = dates[:, 0]
 
@@ -62,12 +66,16 @@ def regression(dates_opt, y_dates):
     x_train, x_test, y_train, y_test = train_test_split(dates_opt, y_dates, test_size=.25, random_state=0)
 
     # regression
-    regressor = linear_model.LinearRegression()
+    regressor = linear_model.LogisticRegression()
     # fit linear model
     regressor.fit(x_train, y_train)
 
     # make prediction
     y_pred = regressor.predict(x_test)
+
+    # test accuracy
+    predictions = np.array(y_pred, dtype=int)
+    print("Regression Accuracy: ", accuracy_score(y_test, predictions))
 
 
 if __name__ == "__main__":
