@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 import sklearn.linear_model as linear_model
 from sklearn.preprocessing import StandardScaler
-from  sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score
 
 """
 Scaling all features to same range.
@@ -26,7 +26,7 @@ def backward_elimination(data, dependent):
     data = np.append(arr=np.ones((len(data), 1)).astype(int), values=data, axis=1)
     # Create new optimal matrix of features. At the end it will contain only features
     # that are statistically significant and has strongest impact to dependent variable. P-val < 0.05
-    data_opt = data[:, [1, 2, 4, 7, 8, 10]]
+    data_opt = data[:, [0, 1, 2, 3, 4, 7, 8, 9, 10, 13, 14, 15, 18, 22, 23]]
     # Ordinary Least Squares
     regressor_OLS = sm.OLS(endog=dependent, exog=data_opt).fit()
     # print(regressor_OLS.summary())
@@ -41,9 +41,6 @@ def process_data():
     # put every row into list and add it to dates
     for d in db_dates:
         dates.append(SpeedDate.to_list(d))
-
-    # scale features
-    # dates = feature_scaling(dates)
 
     dates = np.array(dates)
 
